@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantina Fácil - Estoque</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo">Cantina Fácil</div>
+
+    <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/vendas">Vendas</a>
+        <a href="/estoque">Estoque</a>
+        <a href="/relatorios">Relatórios</a>
+        <a href="/logout">Sair</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h1>Estoque</h1>
+            <p>Controle de estoque dos produtos</p>
+        </div>
+    </div>
+
+    {% if mensagem %}
+        <div class="alert alert-success">
+            {{ mensagem }}
+        </div>
+    {% endif %}
+
+    {% if erro %}
+        <div class="alert alert-error">
+            {{ erro }}
+        </div>
+    {% endif %}
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total de produtos</h3>
+            <strong>{{ total_produtos }}</strong>
+        </div>
+
+        <div class="card">
+            <h3>Estoque disponível</h3>
+            <strong>{{ total_estoque }}</strong>
+        </div>
+
+        <div class="card">
+            <h3>Estoque baixo</h3>
+            <strong>{{ produtos_baixos }}</strong>
+        </div>
+
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+                <th>Estoque mínimo</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for produto in produtos %}
+
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>{{ produto.estoque }}</td>
+                <td>{{ produto.estoque_minimo }}</td>
+
+                <td>
+                    {% if produto.estoque <= produto.estoque_minimo %}
+                        <span class="status-low">
+                            Estoque baixo
+                        </span>
+                    {% else %}
+                        <span class="status-active">
+                            Normal
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="/estoque/{{ produto.id }}/editar">
+                        Atualizar
+                    </a>
+                </td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="6">
+                    Nenhum produto encontrado.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</main>
+
+</body>
+</html>
