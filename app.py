@@ -3,9 +3,7 @@ import sqlite3
 from datetime import datetime, date
 from functools import wraps
 
-app = Flask(__name__)
-app.secret_key = "cantina-facil-2026"
-
+app = Flask(__name__, template_folder='.')app.secret_key = "cantina-facil-2026"
 DATABASE = "cantina.db"
 
 
