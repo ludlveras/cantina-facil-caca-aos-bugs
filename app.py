@@ -1,10 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import os
 import sqlite3
 from datetime import datetime, date
 from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
-app = Flask(__name__, template_folder='.')app.secret_key = "cantina-facil-2026"
-DATABASE = "cantina.db"
+# Caminho absoluto para evitar erros no servidor Linux do Render
+base_dir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(base_dir, 'templates'),
+    static_folder=os.path.join(base_dir, 'static')
+)
+
+app.secret_key = "cantina-facil-2026"
+DATABASE = os.path.join(base_dir, "cantina.db")
 
 
 def conectar():
