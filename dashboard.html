@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantina Fácil - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="logo">
+            Cantina Fácil
+        </div>
+
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/produtos">Produtos</a>
+            <a href="/vendas">Vendas</a>
+            <a href="/estoque">Estoque</a>
+            <a href="/relatorios">Relatórios</a>
+            <a href="/logout">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Visão geral da cantina</p>
+            </div>
+        </div>
+
+        <section class="cards">
+
+            <div class="card">
+                <h3>Produtos</h3>
+                <strong>{{ total_produtos }}</strong>
+                <span>cadastrados</span>
+            </div>
+
+            <div class="card">
+                <h3>Vendas hoje</h3>
+                <strong>{{ vendas_hoje }}</strong>
+                <span>vendas realizadas</span>
+            </div>
+
+            <div class="card">
+                <h3>Faturamento</h3>
+                <strong>R$ {{ "%.2f"|format(faturamento) }}</strong>
+                <span>hoje</span>
+            </div>
+
+            <div class="card">
+                <h3>Estoque baixo</h3>
+                <strong>{{ estoque_baixo }}</strong>
+                <span>produtos</span>
+            </div>
+
+        </section>
+
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <h2>Últimas vendas</h2>
+                <a href="/vendas">Ver todas</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Total</th>
+                        <th>Forma de pagamento</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for venda in ultimas_vendas %}
+                    <tr>
+                        <td>#{{ venda.id }}</td>
+                        <td>{{ venda.data }}</td>
+                        <td>R$ {{ "%.2f"|format(venda.total) }}</td>
+                        <td>{{ venda.pagamento }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Nenhuma venda encontrada.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
